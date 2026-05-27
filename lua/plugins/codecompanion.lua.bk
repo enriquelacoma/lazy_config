@@ -1,0 +1,67 @@
+return {
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    keys = {
+      { "<leader>ah", "<cmd>CodeCompanionChat<CR>", desc = "CodeCompanion Chat" },
+      { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "CodeCompanion Actions" },
+      { "<leader>ah", ":'<,'>CodeCompanionChat<CR>", mode = "v", desc = "Send to Chat" },
+    },
+    opts = {
+      -- NOTE: The log_level is in `opts.opts`
+      opts = {
+        log_level = "DEBUG", -- or "TRACE"
+      },
+      adapters = {
+        acp = {
+          codex = function()
+            return require("codecompanion.adapters").extend("codex", {
+              defaults = {
+                auth_method = "chatgpt", -- 👈 no API key needed
+              },
+            })
+          end,
+        },
+      },
+      interactions = {
+        chat = {
+          adapter = "codex",
+        },
+      },
+      -- prompt library
+      prompt_library = {
+        markdown = {
+          dirs = {
+            vim.fn.stdpath("config") .. "/prompts",
+          },
+        },
+
+        ["Explain Code"] = {
+          interaction = "chat",
+          description = "Explain how the selected code works",
+          opts = {
+            modes = { "v" },
+            is_slash_cmd = true,
+            auto_submit = true,
+          },
+          prompts = {
+            {
+              role = "system",
+              content = "You are an expert programmer who explains code clearly and concisely.",
+            },
+            {
+              role = "user",
+              content = function(context)
+                local text = require("codecompanion.helpers.actions").get_code(context.start_line, context.end_line)
+                return "Please explain the following code:\n\n```" .. context.filetype .. "\n" .. text .. "\n```"
+              end,
+            },
+          },
+        },
+      },
+    },
+  },
+}

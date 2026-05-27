@@ -1,0 +1,48 @@
+return {
+  {
+    "milanglacier/yarepl.nvim",
+    -- lazy.nvim will call config for you if set to true
+    config = function()
+      local yarepl = require("yarepl")
+
+      -- basic setup + register codex meta
+      yarepl.setup {
+        -- (optional) leave defaults, override what you need
+        -- e.g. change window command if you want a vertical split
+        -- wincmd = 'rightbelow 50 vsplit',
+        metas = {
+          -- register codex meta via the extension helper
+          codex = require("yarepl.extensions.codex").create_codex_meta(),
+        },
+      }
+
+      -- optional: configure the codex extension itself (customize cmd/args)
+      require("yarepl.extensions.codex").setup {
+        codex_cmd = "codex",       -- command used to start the Codex CLI
+        codex_args = {},           -- extra args (e.g. {"--model", "gpt-5"})
+        warn_on_EDITOR_env_var = true,
+        show_winbar_in_float_win = true,
+        -- you can override wincmd if you prefer a different placement
+        -- wincmd = require("yarepl.extensions.codex").wincmd,
+      }
+
+      -- Example keymaps (from the extension README) - adapt to your own leader
+      local keymap = vim.api.nvim_set_keymap
+      keymap("n", "<leader>os", "(REPLStart-codex)", { desc = "Start Codex", noremap = true, silent = true })
+      keymap("n", "<leader>of", "(REPLFocus-codex)", { desc = "Focus Codex", noremap = true, silent = true })
+      keymap("n", "<leader>oh", "(REPLHide-codex)", { desc = "Hide Codex", noremap = true, silent = true })
+      keymap("v", "<leader>or", "(REPLSendVisual-codex)", { desc = "Send visual to Codex", noremap = true, silent = true })
+      keymap("n", "<leader>orr", "(REPLSendLine-codex)", { desc = "Send line to Codex", noremap = true, silent = true })
+      keymap("n", "<leader>oe", "(CodexExec)", { desc = "Exec in Codex", noremap = true, silent = true })
+      keymap("n", "<leader>oa", "(CodexSendAbort)", { desc = "Abort", noremap = true, silent = true })
+      keymap("n", "<leader>oD", "(CodexSendExit)", { desc = "Exit", noremap = true, silent = true })
+      keymap("n", "<leader>od", "(CodexSendDiff)", { desc = "Diff", noremap = true, silent = true })
+      keymap("n", "<leader>ot", "(CodexSendStatus)", { desc = "Status", noremap = true, silent = true })
+      -- ... add more convenience keymaps shown in the README as you like
+    end,
+    -- optional deps (telescope/fzf/dressing) are recommended for extra UX
+    -- but yarepl doesn't have hard dependencies.
+    -- e.g. dependencies = { "nvim-telescope/telescope.nvim", "stevearc/dressing.nvim" }
+  },
+}
+

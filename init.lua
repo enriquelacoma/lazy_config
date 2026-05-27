@@ -5,3 +5,4 @@ vim.api.nvim_set_keymap('n', '<Leader>w', ':w<CR>', { noremap = true, silent = t
 vim.opt.colorcolumn = "80"
 vim.opt.undofile = true                      -- Enable persistent undo
 vim.opt.undodir = vim.fn.expand("~/.undodir") -- Set custom undo directory
+vim.lsp.enable('twiggy_language_server')

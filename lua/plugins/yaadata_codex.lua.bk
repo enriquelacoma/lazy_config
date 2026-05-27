@@ -1,0 +1,67 @@
+return {
+  {
+    "yaadata/codex.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    cmd = {
+      "Codex",
+      "CodexOpen",
+      "CodexToggle",
+      "CodexFocus",
+      "CodexSend",
+      "CodexAdd",
+      "CodexResume",
+      "CodexModel",
+      "CodexStatus",
+      "CodexPermissions",
+      "CodexCompact",
+      "CodexReview",
+      "CodexDiff",
+    },
+    keys = {
+      { "<leader>ot", "<cmd>CodexToggle<cr>", desc = "Toggle Codex Panel" },
+      { "<leader>oo", "<cmd>CodexOpen<cr>",   desc = "Open Codex Panel" },
+      { "<leader>of", "<cmd>CodexFocus<cr>",  desc = "Focus Codex Panel" },
+      { "<leader>os", "<cmd>CodexSend<cr>",   desc = "Send to Codex", mode = { "n", "v" } },
+    },
+    config = function()
+      require("codex").setup({
+        cmd = "codex",
+        args = {},
+        env = {},
+        auto_start = false,
+
+        terminal = {
+          provider = "native",        -- choose best terminal provider
+          window = "vsplit",        -- use vertical split
+          vsplit = {
+            side = "right",         -- open on the right side
+            size_pct = 40,          -- width of panel (percent)
+          },
+          -- you could still set hsplit/float if needed
+          hsplit = {
+            side = "bottom",
+            size_pct = 30,
+          },
+        },
+
+        keymaps = {
+          toggle = "<leader>ot",
+          open   = "<leader>oo",
+          focus  = "<leader>of",
+          send   = "<leader>os",
+          add    = "<leader>oa",
+          resume = "<leader>or",
+          model  = "<leader>om",
+          status = "<leader>oi",
+          permissions = "<leader>op",
+          compact = "<leader>oc",
+          review  = "<leader>oR",
+          diff    = "<leader>od",
+        },
+
+        keymaps_force = false,     -- do not override existing bindings
+      })
+    end,
+  },
+}
+

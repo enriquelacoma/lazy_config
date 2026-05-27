@@ -1,0 +1,63 @@
+return {
+  "carlos-algms/agentic.nvim",
+
+  opts = {
+    -- Available by default: "claude-acp" | "gemini-acp" | "codex-acp" | "opencode-acp" | "cursor-acp" | "auggie-acp"
+    provider = "codex-acp", -- setting the name here is all you need to get started
+  },
+
+  -- these are just suggested keymaps; customize as desired
+  keys = {
+    {
+      "<leader>at",
+      function() require("agentic").toggle() end,
+      mode = { "n", "v", "i" },
+      desc = "Toggle Agentic Chat"
+    },
+    {
+      "<leader>as",
+      function() require("agentic").add_selection() end,
+      mode = { "n", "v" },
+      desc = "Add selection to Agentic to Context"
+    },
+    {
+      "<leader>aa",
+      function() require("agentic").add_selection_or_file_to_context() end,
+      mode = { "n", "v" },
+      desc = "Add file or selection to Agentic to Context"
+    },
+    {
+      "<leader>an",
+      function() require("agentic").new_session() end,
+      mode = { "n", "v", "i" },
+      desc = "New Agentic Session"
+    },
+    {
+      "<leader>ar",
+      function()
+          require("agentic").restore_session()
+      end,
+      desc = "Agentic Restore session",
+      silent = true,
+      mode = { "n", "v", "i" },
+    },
+    {
+      "<leader>ar",
+      function()
+          require("agentic").restore_session()
+      end,
+      desc = "Restore session picker",
+      silent = true,
+      mode = { "n", "v", "i" },
+    },
+    {
+      "<leader>al",
+      function()
+          require("agentic").rotate_layout()
+      end,
+      desc = "Rotate layout",
+      silent = true,
+      mode = { "n", "v", "i" },
+    },
+  },
+}
